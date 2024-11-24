@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	client, context, cancel := db.SetupMongoDB()
-	defer db.CloseConnection(client, context, cancel)
+	client, cxt, cancel := db.SetupMongoDB()
+	defer db.CloseConnection(client, cxt, cancel)
 }
