@@ -1,6 +1,10 @@
 package main
-import "fmt"
 
-func main(){
-	fmt.Println("hello")
+import (
+	"github.com/andariel0905/expenses-tracker/db"
+)
+
+func main() {
+	client, context, cancel := db.SetupMongoDB()
+	defer db.CloseConnection(client, context, cancel)
 }
