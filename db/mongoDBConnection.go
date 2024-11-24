@@ -25,11 +25,8 @@ func SetupMongoDB() (*mongo.Client, context.Context, context.CancelFunc) {
 	return client, ctx, cancel
 }
 
-func getMongoDBCollections(client *mongo.Client) (*mongo.Collection, *mongo.Collection) {
-	expense_categoriesCollection := client.Database("expenses-tracker").Collection("expense_categories")
-	expense_payment_methodsCollection := client.Database("expenses-tracker").Collection("expense_payment_methods")
-
-	return expense_categoriesCollection, expense_payment_methodsCollection
+func getMongoDBCollection(client *mongo.Client, collectionName string) (*mongo.Collection) {
+	return client.Database("expenses-tracker").Collection(collectionName)
 }
 
 func CloseConnection(client *mongo.Client, context context.Context, cancel context.CancelFunc) {
