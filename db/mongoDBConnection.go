@@ -13,7 +13,7 @@ import (
 // File: mongoDBConnection.go
 func SetupMongoDB() (*mongo.Client, context.Context, context.CancelFunc) {
 	context, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+
 	client, err := mongo.Connect(context, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		panic(fmt.Sprintf("Mongo DB Connect issue %s", err))
@@ -22,11 +22,11 @@ func SetupMongoDB() (*mongo.Client, context.Context, context.CancelFunc) {
 	if err != nil {
 		panic(fmt.Sprintf("Mongo DB ping issue %s", err))
 	}
-	
+
 	return client, context, cancel
 }
 
-func getMongoDBCollection(client *mongo.Client, collectionName string) (*mongo.Collection) {
+func getMongoDBCollection(client *mongo.Client, collectionName string) *mongo.Collection {
 	return client.Database("expenses-tracker").Collection(collectionName)
 }
 
