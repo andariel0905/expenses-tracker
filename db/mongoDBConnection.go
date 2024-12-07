@@ -26,7 +26,7 @@ func SetupMongoDB() (*mongo.Client, context.Context, context.CancelFunc) {
 	return client, cxt, cancel
 }
 
-func getMongoDBCollection(client *mongo.Client, collectionName string) *mongo.Collection {
+func GetMongoDBCollection(client *mongo.Client, collectionName string) *mongo.Collection {
 	return client.Database("expenses-tracker").Collection(collectionName)
 }
 
