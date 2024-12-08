@@ -1,4 +1,4 @@
-package mainGui
+package gui
 
 // Code from https://betterprogramming.pub/how-to-create-a-simple-data-entry-desktop-app-with-golang-and-fyne-7c9e543d71e
 
@@ -35,7 +35,7 @@ func saveJsonData(data binding.StringList) {
 
 }
 
-func main() {
+func StartGUI() {
 	myApp := app.New()
 	myWindow := myApp.NewWindow("List Data")
 
