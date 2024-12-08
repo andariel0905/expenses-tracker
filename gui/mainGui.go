@@ -36,6 +36,7 @@ func saveJsonData(data binding.StringList) {
 }
 
 func StartGUI() {
+	fmt.Println("Starting GUI")
 	myApp := app.New()
 	myWindow := myApp.NewWindow("List Data")
 
@@ -115,7 +116,7 @@ func StartGUI() {
 	})
 
 	exit := widget.NewButton("Quit", func() {
-
+		fmt.Println("Closing GUI")
 		myWindow.Close()
 	})
 
