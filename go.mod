@@ -3,6 +3,7 @@ module github.com/andariel0905/expenses-tracker
 go 1.23.3
 
 require (
+	fyne.io/fyne/v2 v2.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
