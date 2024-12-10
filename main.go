@@ -7,6 +7,6 @@ import (
 
 func main() {
 	client, cxt, cancel := db.SetupMongoDB()
-	gui.StartGUI()
+	gui.StartGUI(client, cxt)
 	defer db.CloseConnection(client, cxt, cancel)
 }
