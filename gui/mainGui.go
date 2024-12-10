@@ -18,11 +18,7 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 )
 
-func StartGUI(client *mongo.Client, cxt context.Context) {
-	fmt.Println("Starting GUI")
-	myApp := app.New()
-	myWindow := myApp.NewWindow("TrackExp")
-
+func getLoadedExpenseCategories(client *mongo.Client, cxt context.Context) []string {
 	loadedExpenseCategories := handlers.GetExpenseCategories(client, cxt)
 	var expenseCategoriesNames []string
 
@@ -35,9 +31,17 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 		}
 		expenseCategoriesNames = append(expenseCategoriesNames, name)
 	}
+	return expenseCategoriesNames
+}
 
+func StartGUI(client *mongo.Client, cxt context.Context) {
+	fmt.Println("Starting GUI")
+	myApp := app.New()
+	myWindow := myApp.NewWindow("TrackExp")
+
+	loadedExpenseCategories := getLoadedExpenseCategories(client, cxt)
 	data := binding.NewStringList()
-	data.Set(expenseCategoriesNames)
+	data.Set(loadedExpenseCategories)
 
 	list := widget.NewListWithData(data,
 		func() fyne.CanvasObject {
