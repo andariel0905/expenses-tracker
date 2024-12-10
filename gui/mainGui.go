@@ -3,12 +3,13 @@ package gui
 // Code from https://betterprogramming.pub/how-to-create-a-simple-data-entry-desktop-app-with-golang-and-fyne-7c9e543d71e
 
 import (
-	"encoding/json"
+	"context"
 	"fmt"
-	"io/ioutil"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/layout"
+	"github.com/andariel0905/expenses-tracker/handlers"
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -17,35 +18,26 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 )
 
-func loadJsonData() []string {
-	fmt.Println("Loading data from JSON file")
-
-	input, _ := ioutil.ReadFile("data.json")
-	var data []string
-	json.Unmarshal(input, &data)
-
-	return data
-}
-
-func saveJsonData(data binding.StringList) {
-	fmt.Println("Saving data to JSON file")
-	d, _ := data.Get()
-	jsonData, _ := json.Marshal(d)
-	ioutil.WriteFile("data.json", jsonData, 0644)
-
-}
-
-func StartGUI() {
+func StartGUI(client *mongo.Client, cxt context.Context) {
 	fmt.Println("Starting GUI")
 	myApp := app.New()
-	myWindow := myApp.NewWindow("List Data")
+	myWindow := myApp.NewWindow("TrackExp")
 
-	loadedData := loadJsonData()
+	loadedExpenseCategories := handlers.GetExpenseCategories(client, cxt)
+	var expenseCategoriesNames []string
+
+	for _, document := range loadedExpenseCategories {
+		name, ok := document["Name"].(string)
+
+		if !ok {
+			println("No property 'Name' in the document or it is not a string")
+			continue
+		}
+		expenseCategoriesNames = append(expenseCategoriesNames, name)
+	}
 
 	data := binding.NewStringList()
-	data.Set(loadedData)
-
-	defer saveJsonData(data)
+	data.Set(expenseCategoriesNames)
 
 	list := widget.NewListWithData(data,
 		func() fyne.CanvasObject {
