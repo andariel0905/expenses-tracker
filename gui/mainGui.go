@@ -34,14 +34,18 @@ func getLoadedExpenseCategories(client *mongo.Client, cxt context.Context) []str
 	return expenseCategoriesNames
 }
 
+func loadExpenseCategories(client *mongo.Client, cxt context.Context) binding.StringList {
+	loadedExpenseCategories := getLoadedExpenseCategories(client, cxt)
+	data := binding.NewStringList()
+	data.Set(loadedExpenseCategories)
+	return data
+}
+
 func StartGUI(client *mongo.Client, cxt context.Context) {
 	fmt.Println("Starting GUI")
 	myApp := app.New()
 	myWindow := myApp.NewWindow("TrackExp")
-
-	loadedExpenseCategories := getLoadedExpenseCategories(client, cxt)
-	data := binding.NewStringList()
-	data.Set(loadedExpenseCategories)
+	data := loadExpenseCategories(client, cxt)
 
 	list := widget.NewListWithData(data,
 		func() fyne.CanvasObject {
@@ -91,12 +95,13 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 	}
 
 	add := widget.NewButton("Add", func() {
-		w := myApp.NewWindow("Add Data")
+		w := myApp.NewWindow("Add Expense Category")
 
 		itemName := widget.NewEntry()
 
 		addData := widget.NewButton("Add", func() {
-			data.Append(itemName.Text)
+			handlers.PostExpenseCategory(client, cxt, itemName.Text)
+			data = loadExpenseCategories(client, cxt)
 			w.Close()
 		})
 
