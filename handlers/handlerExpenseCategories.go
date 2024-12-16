@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func postExpenseCategory(client *mongo.Client, cxt context.Context, newExpenseCategoryName string) {
+func PostExpenseCategory(client *mongo.Client, cxt context.Context, newExpenseCategoryName string) {
 	collection := db.GetMongoDBCollection(client, "expenseCategories")
 
 	newExpenseCategory := models.ExpenseCategory{newExpenseCategoryName}
