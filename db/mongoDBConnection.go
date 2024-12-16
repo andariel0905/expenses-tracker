@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -13,7 +12,7 @@ import (
 // File: mongoDBConnection.go
 func SetupMongoDB() (*mongo.Client, context.Context, context.CancelFunc) {
 	fmt.Println("Setting up MongoDB Connection")
-	cxt, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	cxt, cancel := context.WithCancel(context.Background())
 
 	client, err := mongo.Connect(cxt, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
