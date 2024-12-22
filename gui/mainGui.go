@@ -41,12 +41,7 @@ func loadExpenseCategories(client *mongo.Client, cxt context.Context) binding.St
 	return data
 }
 
-func StartGUI(client *mongo.Client, cxt context.Context) {
-	fmt.Println("Starting GUI")
-	myApp := app.New()
-	myWindow := myApp.NewWindow("TrackExp")
-	data := loadExpenseCategories(client, cxt)
-
+func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
 	list := widget.NewListWithData(data,
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
@@ -93,6 +88,27 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 		w.Show()
 
 	}
+	return list
+}
+
+func createAdminButton() *widget.Button {
+	return widget.NewButton("Admin", func() {})
+}
+
+func createInvestmentsButton() *widget.Button {
+	return widget.NewButton("Investments", func() {})
+}
+
+func createInstallmentsButton() *widget.Button {
+	return widget.NewButton("Installments", func() {})
+}
+
+func StartGUI(client *mongo.Client, cxt context.Context) {
+	fmt.Println("Starting GUI")
+	myApp := app.New()
+	myWindow := myApp.NewWindow("TrackExp")
+	data := loadExpenseCategories(client, cxt)
+	list := createList(myApp, data)
 
 	add := widget.NewButton("New Expense", func() {
 		w := myApp.NewWindow("Add Expense Category")
@@ -121,8 +137,14 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 		myWindow.Close()
 	})
 
+	admin := createAdminButton()
+
+	investments := createInvestmentsButton()
+
+	installments := createInstallmentsButton()
+
 	myWindow.SetContent(container.NewBorder(
-		container.New(layout.NewHBoxLayout(), layout.NewSpacer(), exit),
+		container.New(layout.NewHBoxLayout(), admin, investments, installments, layout.NewSpacer(), exit),
 		container.New(layout.NewVBoxLayout(), add),
 		nil,
 		nil,
