@@ -94,7 +94,7 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 
 	}
 
-	add := widget.NewButton("Add", func() {
+	add := widget.NewButton("New Expense", func() {
 		w := myApp.NewWindow("Add Expense Category")
 
 		itemName := widget.NewEntry()
@@ -121,8 +121,14 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 		myWindow.Close()
 	})
 
-	myWindow.SetContent(container.NewBorder(nil, container.New(layout.NewVBoxLayout(), add, exit), nil, nil, list))
-	myWindow.Resize(fyne.NewSize(400, 600))
+	myWindow.SetContent(container.NewBorder(
+		container.New(layout.NewHBoxLayout(), layout.NewSpacer(), exit),
+		container.New(layout.NewVBoxLayout(), add),
+		nil,
+		nil,
+		list,
+	))
+	myWindow.Resize(fyne.NewSize(600, 700))
 	myWindow.SetMaster()
 	myWindow.CenterOnScreen()
 	myWindow.ShowAndRun()
