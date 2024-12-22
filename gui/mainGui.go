@@ -106,6 +106,8 @@ func createInstallmentsButton() *widget.Button {
 func StartGUI(client *mongo.Client, cxt context.Context) {
 	fmt.Println("Starting GUI")
 	myApp := app.New()
+	myApp.Settings().SetTheme(&MyTheme{})
+
 	myWindow := myApp.NewWindow("TrackExp")
 	data := loadExpenseCategories(client, cxt)
 	list := createList(myApp, data)
