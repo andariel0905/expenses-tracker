@@ -126,6 +126,7 @@ func ShowExpenseCategoriesWindow(client *mongo.Client, cxt context.Context) {
 		nil,
 		list,
 	))
+	myWindow.SetFixedSize(true)
 	myWindow.Resize(fyne.NewSize(400, 600))
 	myWindow.CenterOnScreen()
 	myWindow.Show()
