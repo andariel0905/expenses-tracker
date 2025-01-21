@@ -115,11 +115,17 @@ func ShowExpenseCategoriesWindow(client *mongo.Client, cxt context.Context) {
 	data := loadExpenseCategories(client, cxt)
 	list := createList(myApp, data)
 
-	add := widget.NewButton("New Expense", func() {
+	add := widget.NewButton("New Expense Category", func() {
 		addExpenseCategoryWindow(client, cxt, data)
 	})
 
-	myWindow.SetContent(container.New(layout.NewVBoxLayout(), add, list))
+	myWindow.SetContent(container.NewBorder(
+		container.New(layout.NewVBoxLayout(), add),
+		nil,
+		nil,
+		nil,
+		list,
+	))
 	myWindow.Resize(fyne.NewSize(400, 600))
 	myWindow.CenterOnScreen()
 	myWindow.Show()
