@@ -14,6 +14,15 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+// set general utilities
+func CreateQuitButton(myWindow fyne.Window) fyne.Widget {
+	button := widget.NewButton("Quit", func() {
+		fmt.Println("Closing GUI")
+		myWindow.Close()
+	})
+	return button
+}
+
 // Set Toolbar utilities
 func createAdminDropdown(client *mongo.Client, cxt context.Context) *widget.Select {
 	options := []string{"Expense Categories"}
@@ -43,10 +52,7 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 
 	myWindow := myApp.NewWindow("TrackExp")
 
-	quit := widget.NewButton("Quit", func() {
-		fmt.Println("Closing GUI")
-		myWindow.Close()
-	})
+	quit := CreateQuitButton(myWindow)
 
 	admin := createAdminDropdown(client, cxt)
 
