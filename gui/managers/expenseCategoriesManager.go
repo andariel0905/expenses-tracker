@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
+	"github.com/andariel0905/expenses-tracker/gui/guiutils"
 	"github.com/andariel0905/expenses-tracker/handlers"
 	"go.mongodb.org/mongo-driver/mongo"
 
@@ -119,8 +120,10 @@ func ShowExpenseCategoriesWindow(client *mongo.Client, cxt context.Context) {
 		addExpenseCategoryWindow(client, cxt, data)
 	})
 
+	quit := guiutils.CreateQuitButton(myWindow, "Closing Expense Categories Window")
+
 	myWindow.SetContent(container.NewBorder(
-		container.New(layout.NewVBoxLayout(), add),
+		container.New(layout.NewHBoxLayout(), add, layout.NewSpacer(), quit),
 		nil,
 		nil,
 		nil,
