@@ -66,9 +66,9 @@ func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
 
 		deleteData := widget.NewButton("Delete", func() {
 			var newData []string
-			dt, _ := data.Get()
+			originalData, _ := data.Get()
 
-			for index, item := range dt {
+			for index, item := range originalData {
 				if index != id {
 					newData = append(newData, item)
 				}
