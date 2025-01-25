@@ -73,6 +73,7 @@ func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
 				}
 			}
 
+			handlers.DeleteExpenseCategory(currentName)
 			data.Set(newData)
 
 			w.Close()
