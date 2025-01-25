@@ -23,10 +23,16 @@ func (m MyTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant) colo
 	case theme.ColorNameSeparator:
 		return color.RGBA{R: 99, G: 145, B: 42, A: 200}
 
+	case theme.ColorNameHover:
+		return color.RGBA{R: 229, G: 220, B: 225, A: 100}
 		//		return color.RGBA{R: 99, G: 145, B: 42, A: 0}
 
+	case theme.ColorNameInputBackground:
+		// Cambiar el color de fondo de los controles de entrada (como Select)
+		return color.White
+
 	default:
-		return theme.DefaultTheme().Color(name, variant)
+		return theme.DefaultTheme().Color(name, theme.VariantLight)
 	}
 }
 
