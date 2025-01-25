@@ -1,22 +1,19 @@
 package managers
 
 import (
-	"context"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"github.com/andariel0905/expenses-tracker/gui/guiutils"
 	"github.com/andariel0905/expenses-tracker/handlers"
-	"go.mongodb.org/mongo-driver/mongo"
 
 	"fyne.io/fyne/v2/widget"
 
 	"fyne.io/fyne/v2/data/binding"
 )
 
-func getLoadedExpenseCategories(client *mongo.Client, cxt context.Context) []string {
-	loadedExpenseCategories := handlers.GetExpenseCategories(client, cxt)
+func getLoadedExpenseCategories() []string {
+	loadedExpenseCategories := handlers.GetExpenseCategories()
 	var expenseCategoriesNames []string
 
 	for _, document := range loadedExpenseCategories {
@@ -31,8 +28,8 @@ func getLoadedExpenseCategories(client *mongo.Client, cxt context.Context) []str
 	return expenseCategoriesNames
 }
 
-func loadExpenseCategories(client *mongo.Client, cxt context.Context) binding.StringList {
-	loadedExpenseCategories := getLoadedExpenseCategories(client, cxt)
+func loadExpenseCategories() binding.StringList {
+	loadedExpenseCategories := getLoadedExpenseCategories()
 	data := binding.NewStringList()
 	data.Set(loadedExpenseCategories)
 	return data
@@ -56,6 +53,7 @@ func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
 		itemName.Text = d
 
 		updateData := widget.NewButton("Update", func() {
+
 			data.SetValue(id, itemName.Text)
 			w.Close()
 		})
@@ -88,13 +86,13 @@ func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
 	return list
 }
 
-func addExpenseCategoryWindow(client *mongo.Client, cxt context.Context, data binding.StringList) {
+func addExpenseCategoryWindow(data binding.StringList) {
 	w := fyne.CurrentApp().NewWindow("Add Expense Category")
 
 	itemName := widget.NewEntry()
 
 	addData := widget.NewButton("Add", func() {
-		handlers.PostExpenseCategory(client, cxt, itemName.Text)
+		handlers.PostExpenseCategory(itemName.Text)
 		data.Append(itemName.Text)
 		w.Close()
 	})
@@ -109,15 +107,15 @@ func addExpenseCategoryWindow(client *mongo.Client, cxt context.Context, data bi
 	w.Show()
 }
 
-func ShowExpenseCategoriesWindow(client *mongo.Client, cxt context.Context) {
+func ShowExpenseCategoriesWindow() {
 	myApp := fyne.CurrentApp()
 	myWindow := myApp.NewWindow("Expense Categories")
 
-	data := loadExpenseCategories(client, cxt)
+	data := loadExpenseCategories()
 	list := createList(myApp, data)
 
 	add := widget.NewButton("New Expense Category", func() {
-		addExpenseCategoryWindow(client, cxt, data)
+		addExpenseCategoryWindow(data)
 	})
 
 	quit := guiutils.CreateQuitButton(myWindow, "Close", "Closing Expense Categories Window")

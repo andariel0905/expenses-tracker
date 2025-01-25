@@ -1,22 +1,21 @@
 package handlers
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/andariel0905/expenses-tracker/db"
+	"github.com/andariel0905/expenses-tracker/global"
 	"github.com/andariel0905/expenses-tracker/models"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func PostExpenseCategory(client *mongo.Client, cxt context.Context, newExpenseCategoryName string) {
-	collection := db.GetMongoDBCollection(client, "expenseCategories")
+func PostExpenseCategory(newExpenseCategoryName string) {
+	collection := db.GetMongoDBCollection(global.Client, "expenseCategories")
 
 	newExpenseCategory := models.ExpenseCategory{Name: newExpenseCategoryName}
 
-	insertResult, err := collection.InsertOne(cxt, newExpenseCategory)
+	insertResult, err := collection.InsertOne(global.Context, newExpenseCategory)
 
 	if err != nil {
 		panic(fmt.Sprintf("Doc insert issue %s", err))
@@ -25,20 +24,20 @@ func PostExpenseCategory(client *mongo.Client, cxt context.Context, newExpenseCa
 	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 }
 
-func GetExpenseCategories(client *mongo.Client, cxt context.Context) []bson.M {
-	collection := db.GetMongoDBCollection(client, "expenseCategories")
+func GetExpenseCategories() []bson.M {
+	collection := db.GetMongoDBCollection(global.Client, "expenseCategories")
 
 	findOptions := options.Find()
 
-	cursor, err := collection.Find(cxt, bson.D{}, findOptions)
+	cursor, err := collection.Find(global.Context, bson.D{}, findOptions)
 	if err != nil {
 		panic(fmt.Sprintf("Error while obtaining documents: %s", err))
 	}
-	defer cursor.Close(cxt)
+	defer cursor.Close(global.Context)
 
 	var results []bson.M
 
-	for cursor.Next(cxt) {
+	for cursor.Next(global.Context) {
 		var result bson.M
 		if err := cursor.Decode(&result); err != nil {
 			panic(fmt.Sprintf("Error while decoding document: %s", err))
@@ -53,13 +52,13 @@ func GetExpenseCategories(client *mongo.Client, cxt context.Context) []bson.M {
 	return results
 }
 
-func SetExpenseCategory(client *mongo.Client, cxt context.Context, currentName string, newName string) {
-	collection := db.GetMongoDBCollection(client, "expenseCategories")
+func SetExpenseCategory(currentName string, newName string) {
+	collection := db.GetMongoDBCollection(global.Client, "expenseCategories")
 
 	filter := bson.M{"name": currentName}
 	updateInterface := bson.M{"name": newName}
 
-	insertResult, err := collection.UpdateOne(cxt, filter, updateInterface)
+	insertResult, err := collection.UpdateOne(global.Context, filter, updateInterface)
 
 	if err != nil {
 		panic(fmt.Sprintf("Doc insert issue %s", err))

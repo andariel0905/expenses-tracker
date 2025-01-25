@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/andariel0905/expenses-tracker/global"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -30,10 +31,10 @@ func GetMongoDBCollection(client *mongo.Client, collectionName string) *mongo.Co
 	return client.Database("expenses-tracker").Collection(collectionName)
 }
 
-func CloseConnection(client *mongo.Client, cxt context.Context, cancel context.CancelFunc) {
+func CloseConnection(cancel context.CancelFunc) {
 	defer func() {
 		cancel()
-		if err := client.Disconnect(cxt); err != nil {
+		if err := global.Client.Disconnect(global.Context); err != nil {
 			panic(err)
 		}
 		fmt.Println("Close connection is called")

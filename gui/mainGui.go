@@ -1,14 +1,12 @@
 package gui
 
 import (
-	"context"
 	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/layout"
 	"github.com/andariel0905/expenses-tracker/gui/guiutils"
 	"github.com/andariel0905/expenses-tracker/gui/managers"
-	"go.mongodb.org/mongo-driver/mongo"
 
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -16,12 +14,12 @@ import (
 )
 
 // Set Toolbar utilities
-func createAdminDropdown(client *mongo.Client, cxt context.Context) *widget.Select {
+func createAdminDropdown() *widget.Select {
 	options := []string{"Expense Categories"}
 	drowpdown := widget.NewSelect(options, func(selected string) {
 		switch selected {
 		case "Expense Categories":
-			managers.ShowExpenseCategoriesWindow(client, cxt)
+			managers.ShowExpenseCategoriesWindow()
 		}
 	})
 
@@ -38,7 +36,7 @@ func createInstallmentsButton() *widget.Button {
 }
 
 // GUI Setup
-func StartGUI(client *mongo.Client, cxt context.Context) {
+func StartGUI() {
 	fmt.Println("Starting GUI")
 	myApp := app.New()
 
@@ -49,7 +47,7 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 
 	quit := guiutils.CreateQuitButton(myWindow, "Exit", "Closing GUI")
 
-	admin := createAdminDropdown(client, cxt)
+	admin := createAdminDropdown()
 
 	investments := createInvestmentsButton()
 	installments := createInstallmentsButton()
