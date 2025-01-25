@@ -72,3 +72,17 @@ func SetExpenseCategory(currentName string, newName string) {
 		fmt.Println("Document's name updated from " + currentName + " to " + newName)
 	}
 }
+
+func DeleteExpenseCategory(expenseCategoryName string) {
+	collection := db.GetMongoDBCollection(global.Client, "expenseCategories")
+
+	filter := bson.M{"name": expenseCategoryName}
+
+	_, err := collection.DeleteOne(global.Context, filter)
+
+	if err != nil {
+		panic(fmt.Sprintf("Doc delete issue %s", err))
+	}
+
+	fmt.Println("Document '" + expenseCategoryName + "' deleted successfully")
+}
