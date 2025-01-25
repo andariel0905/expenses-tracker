@@ -52,3 +52,22 @@ func GetExpenseCategories(client *mongo.Client, cxt context.Context) []bson.M {
 
 	return results
 }
+
+func SetExpenseCategory(client *mongo.Client, cxt context.Context, currentName string, newName string) {
+	collection := db.GetMongoDBCollection(client, "expenseCategories")
+
+	filter := bson.M{"name": currentName}
+	updateInterface := bson.M{"name": newName}
+
+	insertResult, err := collection.UpdateOne(cxt, filter, updateInterface)
+
+	if err != nil {
+		panic(fmt.Sprintf("Doc insert issue %s", err))
+	}
+
+	if insertResult.MatchedCount == 0 {
+		fmt.Println("Operation didn't match any document")
+	} else {
+		fmt.Println("Document's name updated from " + currentName + " to " + newName)
+	}
+}
