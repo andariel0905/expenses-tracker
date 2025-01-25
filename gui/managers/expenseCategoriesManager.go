@@ -49,11 +49,12 @@ func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
 		d, _ := data.GetValue(id)
 		w := myApp.NewWindow("Edit Data")
 
+		currentName := d
 		itemName := widget.NewEntry()
 		itemName.Text = d
 
 		updateData := widget.NewButton("Update", func() {
-
+			handlers.SetExpenseCategory(currentName, itemName.Text)
 			data.SetValue(id, itemName.Text)
 			w.Close()
 		})
