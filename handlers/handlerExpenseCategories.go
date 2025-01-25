@@ -56,7 +56,9 @@ func SetExpenseCategory(currentName string, newName string) {
 	collection := db.GetMongoDBCollection(global.Client, "expenseCategories")
 
 	filter := bson.M{"name": currentName}
-	updateInterface := bson.M{"name": newName}
+	updateInterface := bson.M{
+		"$set": bson.M{"name": newName},
+	}
 
 	insertResult, err := collection.UpdateOne(global.Context, filter, updateInterface)
 
