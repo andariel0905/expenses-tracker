@@ -47,7 +47,7 @@ func StartGUI(client *mongo.Client, cxt context.Context) {
 
 	myWindow := myApp.NewWindow("TrackExp")
 
-	quit := guiutils.CreateQuitButton(myWindow, "Closing GUI")
+	quit := guiutils.CreateQuitButton(myWindow, "Exit", "Closing GUI")
 
 	admin := createAdminDropdown(client, cxt)
 

@@ -120,7 +120,7 @@ func ShowExpenseCategoriesWindow(client *mongo.Client, cxt context.Context) {
 		addExpenseCategoryWindow(client, cxt, data)
 	})
 
-	quit := guiutils.CreateQuitButton(myWindow, "Closing Expense Categories Window")
+	quit := guiutils.CreateQuitButton(myWindow, "Close", "Closing Expense Categories Window")
 
 	myWindow.SetContent(container.NewBorder(
 		container.New(layout.NewHBoxLayout(), add, layout.NewSpacer(), quit),

@@ -7,8 +7,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func CreateQuitButton(myWindow fyne.Window, printlnText string) fyne.Widget {
-	button := widget.NewButton("Quit", func() {
+func CreateQuitButton(myWindow fyne.Window, buttonText string, printlnText string) fyne.Widget {
+	button := widget.NewButton(buttonText, func() {
 		fmt.Println(printlnText)
 		myWindow.Close()
 	})
