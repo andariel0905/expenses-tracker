@@ -18,12 +18,15 @@ import (
 // Set Toolbar utilities
 func createAdminDropdown(client *mongo.Client, cxt context.Context) *widget.Select {
 	options := []string{"Expense Categories"}
-	return widget.NewSelect(options, func(selected string) {
+	drowpdown := widget.NewSelect(options, func(selected string) {
 		switch selected {
 		case "Expense Categories":
 			managers.ShowExpenseCategoriesWindow(client, cxt)
 		}
 	})
+
+	drowpdown.PlaceHolder = "Admin"
+	return drowpdown
 }
 
 func createInvestmentsButton() *widget.Button {
