@@ -14,7 +14,7 @@ import (
 func PostExpenseCategory(client *mongo.Client, cxt context.Context, newExpenseCategoryName string) {
 	collection := db.GetMongoDBCollection(client, "expenseCategories")
 
-	newExpenseCategory := models.ExpenseCategory{newExpenseCategoryName}
+	newExpenseCategory := models.ExpenseCategory{Name: newExpenseCategoryName}
 
 	insertResult, err := collection.InsertOne(cxt, newExpenseCategory)
 
