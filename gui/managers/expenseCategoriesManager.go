@@ -111,7 +111,7 @@ func addExpenseCategoryWindow(data binding.StringList) {
 
 func ShowExpenseCategoriesWindow() {
 	myApp := fyne.CurrentApp()
-	myWindow := myApp.NewWindow("Expense Categories")
+	myWindow := myApp.NewWindow("Expense Categories Manager")
 
 	data := loadExpenseCategories()
 	list := createList(myApp, data)
