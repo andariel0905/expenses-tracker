@@ -15,11 +15,13 @@ import (
 
 // Set Toolbar utilities
 func createAdminDropdown() *widget.Select {
-	options := []string{"Expense Categories"}
+	options := []string{"Expense Categories", "Payment Methods"}
 	drowpdown := widget.NewSelect(options, func(selected string) {
 		switch selected {
 		case "Expense Categories":
 			managers.ShowExpenseCategoriesWindow()
+		case "Payment Methods":
+			managers.ShowPaymentMethodsWindow()
 		}
 	})
 
