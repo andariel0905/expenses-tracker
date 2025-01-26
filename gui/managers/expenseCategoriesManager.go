@@ -35,7 +35,7 @@ func loadExpenseCategories() binding.StringList {
 	return data
 }
 
-func createList(myApp fyne.App, data binding.StringList) fyne.Widget {
+func createExpenseCategoriesList(myApp fyne.App, data binding.StringList) fyne.Widget {
 	list := widget.NewListWithData(data,
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
@@ -114,7 +114,7 @@ func ShowExpenseCategoriesWindow() {
 	myWindow := myApp.NewWindow("Expense Categories Manager")
 
 	data := loadExpenseCategories()
-	list := createList(myApp, data)
+	list := createExpenseCategoriesList(myApp, data)
 
 	add := widget.NewButton("New Expense Category", func() {
 		addExpenseCategoryWindow(data)
