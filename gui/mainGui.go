@@ -33,8 +33,8 @@ func createInvestmentsButton() *widget.Button {
 	return widget.NewButton("Investments", func() {})
 }
 
-func createInstallmentsButton() *widget.Button {
-	return widget.NewButton("Installments", func() {})
+func createInstalmentsButton() *widget.Button {
+	return widget.NewButton("Instalments", func() {})
 }
 
 // GUI Setup
@@ -52,7 +52,7 @@ func StartGUI() {
 	admin := createAdminDropdown()
 
 	investments := createInvestmentsButton()
-	installments := createInstallmentsButton()
+	installments := createInstalmentsButton()
 
 	myWindow.SetContent(container.NewBorder(
 		container.New(layout.NewHBoxLayout(), admin, investments, installments, layout.NewSpacer(), quit),
